@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAULT SECURITY // Intrusion Detection Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <h1>VAULT <span>SECURITY</span></h1>
+      <p>Motion + keypad intrusion detection — software simulation</p>
+    </div>
+    <div class="leds">
+      <div class="led-unit"><div class="led" id="ledSystem"></div><label>SYSTEM</label></div>
+      <div class="led-unit"><div class="led" id="ledMotion"></div><label>MOTION</label></div>
+      <div class="led-unit"><div class="led" id="ledAlarm"></div><label>ALARM</label></div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- VAULT DIAL -->
+    <div class="panel dial-panel">
+      <h2>Vault status</h2>
+      <div class="dial-stage">
+        <svg viewBox="0 0 240 240" width="240" height="240">
+          <circle cx="120" cy="120" r="110" fill="#0a0d12" style="stroke:var(--border)" stroke-width="2"/>
+          <circle cx="120" cy="120" r="118" id="ringPulse" class="ring-pulse" fill="none" style="stroke:var(--amber)" stroke-width="3"/>
+          <circle cx="120" cy="120" r="110" id="alarmFlashRing" class="alarm-flash" fill="none" style="stroke:var(--red)" stroke-width="6"/>
+          <g id="ticks" style="stroke:var(--steel)" stroke-width="2"></g>
+          <circle cx="120" cy="120" r="78" fill="#0e1218" style="stroke:var(--border)" stroke-width="1.5"/>
+          <g class="handle-group" id="handleGroup" transform-origin="120 120">
+            <rect x="115" y="46" width="10" height="64" rx="3" style="fill:var(--cyan)"/>
+            <circle cx="120" cy="120" r="14" style="fill:var(--steel);stroke:var(--cyan)" stroke-width="1.5"/>
+          </g>
+        </svg>
+        <div class="dial-status-text">
+          <div class="state" id="dialState">DISARMED</div>
+          <div class="sub" id="dialSub">vault unlocked</div>
+          <div class="countdown" id="countdownText"></div>
+        </div>
+      </div>
+      <div class="key-hint-banner" id="keyHintBanner"></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="panel control-panel">
+      <h2>Controls</h2>
+
+      <button class="arm-btn disarmed" id="armBtn">Arm system</button>
+      <button class="motion-btn" id="motionBtn">🚶 Trigger motion sensor</button>
+
+      <div class="keypad-section">
+        <div class="code-display" id="codeDisplay"></div>
+        <div class="keypad-grid disabled" id="keypadGrid"></div>
+        <div class="hint" id="keyHint">Arm the system to enable the keypad</div>
+      </div>
+
+      <div class="utility-row">
+        <button class="util-btn" id="logToggleBtn">🗒 Event log</button>
+        <button class="util-btn" id="adminToggleBtn">⚙ Passcode</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT LOG MODAL -->
+<div class="modal-overlay" id="logOverlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Event log</h3>
+      <button class="modal-close" id="logCloseBtn">✕</button>
+    </div>
+    <div class="log-list" id="logList"></div>
+    <button class="util-btn full" id="resetBtn">↺ Reset demo</button>
+  </div>
+</div>
+
+<!-- ADMIN / PASSCODE MODAL -->
+<div class="modal-overlay" id="adminOverlay">
+  <div class="modal-box small">
+    <div class="modal-header">
+      <h3>Change passcode</h3>
+      <button class="modal-close" id="adminCloseBtn">✕</button>
+    </div>
+    <div class="admin-form">
+      <input type="password" id="curCode" placeholder="Current 4-digit code" maxlength="4" inputmode="numeric">
+      <input type="password" id="newCode" placeholder="New 4-digit code" maxlength="4" inputmode="numeric">
+      <input type="password" id="confirmCode" placeholder="Confirm new code" maxlength="4" inputmode="numeric">
+      <button id="changeCodeBtn">Update passcode</button>
+      <div class="admin-msg" id="adminMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

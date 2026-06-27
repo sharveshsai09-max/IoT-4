@@ -1,0 +1,211 @@
+:root{
+  --bg:#05070a;
+  --panel:#0d1117;
+  --panel-2:#121826;
+  --border:#1f2a3d;
+  --steel:#2c3b52;
+  --steel-light:#48618a;
+  --text:#eef2f8;
+  --text-dim:#7c8aa5;
+  --cyan:#22d3ee;
+  --violet:#a855f7;
+  --green:#22ff8c;
+  --amber:#ffcb3d;
+  --red:#ff3366;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:transparent;}
+body{
+  font-family:'Share Tech Mono', monospace;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(34,211,238,.07), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(168,85,247,.08), transparent 45%),
+    var(--bg);
+  min-height:100vh;
+  padding:28px 16px 60px;
+}
+
+.wrap{max-width:980px;margin:0 auto;}
+
+/* ---------- Header ---------- */
+header{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:22px;
+}
+.brand h1{
+  font-family:'Rajdhani', sans-serif;font-weight:700;letter-spacing:.08em;font-size:30px;
+  margin:0 0 4px;text-transform:uppercase;color:var(--text);
+}
+.brand h1 span{
+  background:linear-gradient(90deg, var(--cyan), var(--violet));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand p{margin:0;color:var(--text-dim);font-size:12.5px;letter-spacing:.03em;}
+
+.leds{display:flex;gap:18px;align-items:center;}
+.led-unit{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.led-unit label{font-size:10px;letter-spacing:.12em;color:var(--text-dim);font-family:'Rajdhani',sans-serif;}
+.led{
+  width:16px;height:16px;border-radius:50%;background:#1a212c;border:1px solid var(--border);
+  box-shadow:inset 0 0 4px #000;transition:background .25s, box-shadow .25s;
+}
+.led.on-green{background:var(--green);box-shadow:0 0 10px 3px rgba(34,255,140,.6), inset 0 0 4px rgba(0,0,0,.3);}
+.led.on-amber{background:var(--amber);box-shadow:0 0 10px 3px rgba(255,203,61,.7), inset 0 0 4px rgba(0,0,0,.3);animation:pulseSoft 1s ease-in-out infinite;}
+.led.on-red{background:var(--red);box-shadow:0 0 12px 4px rgba(255,51,102,.8), inset 0 0 4px rgba(0,0,0,.3);animation:blinkHard .35s steps(1) infinite;}
+
+@keyframes pulseSoft{0%,100%{opacity:1;}50%{opacity:.45;}}
+@keyframes blinkHard{0%,49%{opacity:1;}50%,100%{opacity:.25;}}
+
+/* ---------- Main grid ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media (max-width:760px){.grid{grid-template-columns:1fr;}}
+
+.panel{
+  background:linear-gradient(180deg, var(--panel), var(--panel-2));
+  border:1px solid var(--border);border-radius:12px;padding:20px;
+}
+.panel h2{
+  font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-dim);margin:0 0 16px;
+}
+
+/* ---------- Vault dial ---------- */
+.dial-panel{display:flex;flex-direction:column;align-items:center;}
+.dial-stage{position:relative;width:240px;height:240px;}
+.dial-status-text{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;text-align:center;pointer-events:none;
+}
+.dial-status-text .state{font-size:18px;font-weight:700;letter-spacing:.08em;}
+.dial-status-text .sub{font-size:10px;color:var(--text-dim);letter-spacing:.1em;margin-top:4px;}
+.countdown{
+  font-family:'Share Tech Mono',monospace;font-size:30px;font-weight:700;color:var(--amber);
+  margin-top:2px;min-height:34px;
+}
+
+.key-hint-banner{
+  margin-top:14px;font-size:11.5px;color:var(--cyan);text-align:center;min-height:16px;
+  letter-spacing:.03em;
+}
+
+.handle-group{transition:transform .6s cubic-bezier(.2,.8,.2,1);}
+@media (prefers-reduced-motion: reduce){.handle-group{transition:none;}}
+
+.ring-pulse{opacity:0;}
+.ring-pulse.show{animation:ringPulse 1.4s ease-out infinite;}
+@keyframes ringPulse{0%{opacity:.65;stroke-width:3;r:60;}100%{opacity:0;stroke-width:0;r:118;}}
+.alarm-flash{opacity:0;}
+.alarm-flash.show{animation:alarmFlash .5s steps(1) infinite;}
+@keyframes alarmFlash{0%,49%{opacity:.9;}50%,100%{opacity:0;}}
+
+/* ---------- Controls panel ---------- */
+.control-panel{display:flex;flex-direction:column;gap:18px;}
+
+.arm-btn{
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  font-size:15px;padding:14px;border-radius:9px;border:1px solid var(--border);
+  cursor:pointer;width:100%;transition:filter .15s, transform .05s;
+}
+.arm-btn:active{transform:scale(.98);}
+.arm-btn.armed{background:linear-gradient(180deg,#3a0f1c,#260a14);border-color:#5c1b30;color:var(--red);}
+.arm-btn.disarmed{background:linear-gradient(180deg, rgba(34,211,238,.16), rgba(168,85,247,.12));border-color:var(--steel-light);color:var(--cyan);}
+.arm-btn:hover{filter:brightness(1.2);}
+.arm-btn:disabled{opacity:.6;cursor:not-allowed;}
+
+.motion-btn{
+  font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.03em;
+  padding:11px;border-radius:8px;border:1px dashed var(--steel);
+  background:var(--panel-2);color:var(--text);cursor:pointer;width:100%;
+}
+.motion-btn:hover:not(:disabled){border-color:var(--cyan);color:var(--cyan);}
+.motion-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ---------- Keypad ---------- */
+.keypad-section{border-top:1px solid var(--border);padding-top:16px;}
+.code-display{display:flex;gap:10px;justify-content:center;margin-bottom:14px;}
+.code-dot{
+  width:34px;height:40px;border:1px solid var(--steel);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:#0a0d12;color:var(--cyan);
+}
+.keypad-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.key{
+  font-family:'Share Tech Mono',monospace;font-size:16px;padding:13px 0;border-radius:8px;
+  border:1px solid var(--border);background:#141a24;color:var(--text);cursor:pointer;
+}
+.key:hover:not(:disabled){border-color:var(--cyan);background:#171e2b;}
+.key:active:not(:disabled){transform:scale(.95);}
+.key:disabled{opacity:.35;cursor:not-allowed;}
+.key.fn{color:var(--text-dim);font-size:12px;}
+.keypad-grid.disabled{filter:grayscale(.6);opacity:.55;}
+
+.hint{font-size:10.5px;color:var(--text-dim);text-align:center;margin-top:10px;min-height:14px;}
+
+/* ---------- Utility row (log / admin buttons) ---------- */
+.utility-row{display:flex;gap:10px;border-top:1px solid var(--border);padding-top:16px;}
+.util-btn{
+  flex:1;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.04em;font-size:12.5px;
+  padding:10px;border-radius:8px;border:1px solid var(--steel);background:var(--panel-2);
+  color:var(--text);cursor:pointer;
+}
+.util-btn:hover{border-color:var(--violet);color:var(--violet);}
+.util-btn.full{width:100%;margin-top:14px;}
+
+.key:focus-visible, .arm-btn:focus-visible, .util-btn:focus-visible, .modal-close:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:2px;
+}
+
+/* ---------- Modals ---------- */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(2,3,5,.72);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;z-index:50;padding:20px;
+}
+.modal-overlay.show{display:flex;}
+.modal-box{
+  background:linear-gradient(180deg, var(--panel), var(--panel-2));
+  border:1px solid var(--violet);border-radius:12px;padding:20px;width:100%;max-width:440px;
+  box-shadow:0 0 40px rgba(168,85,247,.25);
+}
+.modal-box.small{max-width:340px;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.modal-header h3{
+  font-family:'Rajdhani',sans-serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text);margin:0;
+}
+.modal-close{
+  background:none;border:1px solid var(--border);color:var(--text-dim);border-radius:6px;
+  width:26px;height:26px;cursor:pointer;font-size:13px;line-height:1;
+}
+.modal-close:hover{border-color:var(--red);color:var(--red);}
+
+/* ---------- Log list (inside modal) ---------- */
+.log-list{
+  height:260px;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:6px;
+  font-size:12px;padding-right:4px;
+}
+.log-list::-webkit-scrollbar{width:6px;}
+.log-list::-webkit-scrollbar-thumb{background:var(--steel);border-radius:3px;}
+.log-row{display:flex;gap:10px;border-bottom:1px dotted #1a2230;padding-bottom:5px;}
+.log-time{color:var(--text-dim);flex-shrink:0;}
+.log-msg.info{color:var(--text);}
+.log-msg.ok{color:var(--green);}
+.log-msg.warn{color:var(--amber);}
+.log-msg.bad{color:var(--red);}
+
+/* ---------- Admin form (inside modal) ---------- */
+.admin-form{display:flex;flex-direction:column;gap:10px;}
+.admin-form input{
+  background:#0a0d12;border:1px solid var(--border);color:var(--text);
+  font-family:'Share Tech Mono',monospace;padding:9px;border-radius:7px;font-size:13px;letter-spacing:.1em;
+}
+.admin-form input:focus{outline:none;border-color:var(--cyan);}
+.admin-form button{
+  background:linear-gradient(90deg, rgba(34,211,238,.18), rgba(168,85,247,.18));
+  border:1px solid var(--steel-light);color:var(--text);
+  padding:10px;border-radius:7px;font-size:12.5px;cursor:pointer;font-family:'Rajdhani',sans-serif;
+  letter-spacing:.05em;font-weight:600;
+}
+.admin-form button:hover{border-color:var(--violet);}
+.admin-msg{font-size:11px;min-height:14px;text-align:center;}
